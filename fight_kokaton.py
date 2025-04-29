@@ -161,6 +161,7 @@ class Score:
 
     
 def main():
+    
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     bg_img = pg.image.load("fig/pg_bg.jpg")
@@ -171,6 +172,7 @@ def main():
     clock = pg.time.Clock()
     tmr = 0
     point=0
+    beamlist=[]
 
     while True:
         for event in pg.event.get():
@@ -178,8 +180,12 @@ def main():
                 return
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 beam = Beam(bird)
+                beamlist.append(beam)
+              
+
         
         screen.blit(bg_img, [0, 0])
+
         
         for bomb in bombs:
             if bird.rct.colliderect(bomb.rct):
@@ -190,15 +196,17 @@ def main():
                 pg.display.update()
                 time.sleep(1)
                 return
-
-        for j, bomb in enumerate(bombs):
-            if beam is not None:    
-                if beam.rct.colliderect(bomb.rct):
-                    beam = None
-                    bombs[j] = None
-                    bird.change_img(6, screen)
-                    score.point +=1
+    
+        for i, beam in enumerate(beams):        
+            for j, bomb in enumerate(bombs):
+                if beam is not None:    
+                    if beam.rct.colliderect(bomb.rct):
+                        beam[i] = None
+                        bombs[j] = None
+                        bird.change_img(6, screen)
+                        score.point +=1
         bombs = [bomb for bomb in bombs if bomb is not None]
+        
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
@@ -211,7 +219,10 @@ def main():
         pg.display.update()
         tmr += 1
         clock.tick(50)
+        beams = [beam for beam in beams if beam is not None and check_bound(beam.rct)[0]]
 
+        for beam in beams:
+            beam.update(screen)
 
 
 if __name__ == "__main__":
