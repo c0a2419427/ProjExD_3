@@ -144,14 +144,15 @@ class Score:
         pg.font.init()
         self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)  
         self.color = (0, 0, 255)  
-        self.score = 0  
-        self.img = self.fonto.render("スコア:" ,0, self.color)
+        self.point = 0
+        self.img = self.fonto.render(f"スコア: {self.point}", True, self.color)
         self.pos = (100, 600)  
 
     def update(self, screen):
-        self.img = self.fonto.render("スコア:" ,0, self.color)
+        self.img = self.fonto.render(f"スコア: {self.point}", True, self.color)
         screen.blit(self.img, self.img.get_rect(center=self.pos))
-   
+
+
  
 
 
@@ -196,7 +197,7 @@ def main():
                     beam = None
                     bombs[j] = None
                     bird.change_img(6, screen)
-                    point +=1
+                    score.point +=1
         bombs = [bomb for bomb in bombs if bomb is not None]
 
         key_lst = pg.key.get_pressed()
