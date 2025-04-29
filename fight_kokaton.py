@@ -151,14 +151,6 @@ class Score:
     def update(self, screen):
         self.img = self.fonto.render(f"スコア: {self.point}", True, self.color)
         screen.blit(self.img, self.img.get_rect(center=self.pos))
-
-
- 
-
-
-
-
-
     
 def main():
     
@@ -197,7 +189,7 @@ def main():
                 time.sleep(1)
                 return
 
-        for j, bomb in enumerate(bombs):
+        for j, bomb in enumerate(bombs): # 爆弾リスト(bombs)の中身をループし、インデックスjと爆弾bombを取り出す
             if beam is not None:    
                 if beam.rct.colliderect(bomb.rct):
                     beam = None
